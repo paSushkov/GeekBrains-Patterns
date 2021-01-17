@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="010c87b3-4dad-421e-bbab-92d314f958e4" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/Assets/Scenes/Player.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/IMove.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/AccelerationMove.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/MoveTransform.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/IRotition.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/RotationShip.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/IRotation.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Ship.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Player.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Test.cs" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1ie46dTaFKVMP6XiiGtdSalAgvM" />
+  <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
+    <option name="autoscrollToSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="Discover.Launch.Via.Unity" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
+    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+      <option name="allowRunningInParallel" value="false" />
+      <option name="listenPortForConnections" value="false" />
+      <option name="pid" />
+      <option name="selectedOptions">
+        <set />
+      </option>
+      <method v="2" />
+    </configuration>
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+      <option name="allowRunningInParallel" value="false" />
+      <option name="listenPortForConnections" value="false" />
+      <option name="pid" />
+      <option name="selectedOptions">
+        <set />
+      </option>
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="010c87b3-4dad-421e-bbab-92d314f958e4" name="Default Changelist" comment="" />
+      <created>1602254551837</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1602254551837</updated>
+      <workItem from="1602254573118" duration="5265000" />
+      <workItem from="1602322984500" duration="6039000" />
+      <workItem from="1602415810200" duration="4365000" />
+      <workItem from="1607364005043" duration="3799000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
+  <component name="UnityUnitTestConfiguration" currentTestLauncher="EditMode" />
+  <component name="VcsManagerConfiguration">
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="779" y="214" key="RiderGenerateDialog" timestamp="1607365681343">
+      <screen x="93" y="0" width="1827" height="1080" />
+    </state>
+    <state x="779" y="214" key="RiderGenerateDialog/93.0.1827.1080/1920.0.1920.1050@93.0.1827.1080" timestamp="1607365681343" />
+  </component>
+</project>
