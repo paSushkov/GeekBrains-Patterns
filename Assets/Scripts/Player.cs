@@ -1,60 +1,58 @@
-﻿using UnityEngine;
+﻿using Asteroids.Tech.PlayerLoop;
+using UnityEngine;
 
 namespace Asteroids
 {
-    internal sealed class Player : MonoBehaviour
+    internal sealed class Player : IPlayerLoop
     {
-        [SerializeField] private float _speed;
-        [SerializeField] private float _acceleration;
-        [SerializeField] private float _hp;
-        [SerializeField] private Rigidbody2D _bullet;
-        [SerializeField] private Transform _barrel;
-        [SerializeField] private float _force;
         private Camera _camera;
-        private Ship _ship;
+        private Ship ship;
 
-        private void Start()
+        public void Initialize(IPlayerLoopProcessor playerLoopProcessor, Ship playerShip, Camera camera)
         {
-            _camera = Camera.main;
-            var moveTransform = new AccelerationMove(transform, _speed, _acceleration);
-            var rotation = new RotationShip(transform);
-            _ship = new Ship(moveTransform, rotation);
+            PlayerLoopSubscriptionController = new PlayerLoopSubscriptionController();
+            PlayerLoopSubscriptionController.Initialize(this, playerLoopProcessor);
+            PlayerLoopSubscriptionController.SubscribeToLoop();
+            ship = playerShip;
+            _camera = camera;
         }
 
-        private void Update()
+        #region IPlayerLoop implementation
+
+        public IPlayerLoopSubscriptionController PlayerLoopSubscriptionController { get; private set; }
+
+        public void ProcessUpdate(float deltaTime)
         {
-            var direction = Input.mousePosition - _camera.WorldToScreenPoint(transform.position);
-            _ship.Rotation(direction);
-            
-            _ship.Move(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), Time.deltaTime);
+            var direction = Input.mousePosition - _camera.WorldToScreenPoint(ship.GameTransform.position);
+            ship.Rotation(direction);
+
+            ship.Move(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), Time.deltaTime);
 
             if (Input.GetKeyDown(KeyCode.LeftShift))
             {
-                _ship.AddAcceleration();
+                ship.AddAcceleration();
             }
 
             if (Input.GetKeyUp(KeyCode.LeftShift))
             {
-                _ship.RemoveAcceleration();
+                ship.RemoveAcceleration();
             }
 
             if (Input.GetButtonDown("Fire1"))
             {
-                var temAmmunition = Instantiate(_bullet, _barrel.position, _barrel.rotation);
-                temAmmunition.AddForce(_barrel.up * _force);
+                ship.Shoot();
             }
         }
 
-        private void OnCollisionEnter2D(Collision2D other)
+        public void ProcessFixedUpdate(float fixedDeltaTime)
         {
-            if (_hp <= 0)
-            {
-                Destroy(gameObject);
-            }
-            else
-            {
-                _hp--;
-            }
+            ship.StatHolder.FixedUpdate(fixedDeltaTime);
         }
+
+        public void ProcessLateUpdate(float fixedDeltaTime)
+        {
+        }
+
+        #endregion
     }
 }
