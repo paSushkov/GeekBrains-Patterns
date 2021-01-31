@@ -3,7 +3,10 @@ using Asteroids.Characteristics;
 using Asteroids.Common;
 using Asteroids.Management;
 using Asteroids.PlayerData;
+using Asteroids.Tech;
+using Asteroids.Tech.Input.Intefaces;
 using Asteroids.Tech.PlayerLoop;
+using Tech.Input;
 using UnityEngine;
 
 public class Main : MonoBehaviour
@@ -11,14 +14,13 @@ public class Main : MonoBehaviour
     #region Private data
 
     [SerializeField] private PlayerData playerData;
+    [SerializeField] private InputListener inputListener;
+    private IInputTranslator inputTranslator;
     private IUpdatable playerLoopProcessor;
-    private ITransformRegistry transformRegistry;
-    private Player player;
-    
 
     #endregion
-    
 
+    
     #region Unity events
 
     private void Awake()
@@ -38,15 +40,22 @@ public class Main : MonoBehaviour
 
     private void LateUpdate()
     {
-        playerLoopProcessor.FixedUpdate(Time.deltaTime);
+        playerLoopProcessor.LateUpdate(Time.deltaTime);
     }
 
     #endregion
 
     private void Initialize()
     {
+        inputTranslator = new InputTranslator();
         playerLoopProcessor = new PlayerLoopProcessor();
-        transformRegistry = new TransformRegistry();
+        inputTranslator.Initialize(playerLoopProcessor as IPlayerLoopProcessor);
+        inputListener.Initialize(inputTranslator);
+        
+        ServiceLocator.SetService(inputTranslator);
+        ServiceLocator.SetService(inputListener as IInputListener);
+        ServiceLocator.SetService(playerLoopProcessor as IPlayerLoopProcessor);
+        ServiceLocator.SetService(new TransformRegistry() as ITransformRegistry);
         InitializePlayer();
     }
 
@@ -61,9 +70,9 @@ public class Main : MonoBehaviour
         var shipShoot = new ShipShoot(shipMarkUp.Barrels, playerData.ShootData.Bullet, playerData.ShootData.ShootForce);
         
         var playerHP = new Stat(new MinMaxCurrent(0, playerData.PlayerHp, playerData.PlayerHp));
-        var ship = new Ship(moveTransform, rotation, shipShoot,playerTransform, transformRegistry, playerHP, shipMarkUp);
+        var ship = new Ship(moveTransform, rotation, shipShoot,playerTransform, playerHP, shipMarkUp);
         
-        player = new Player();
-        player.Initialize(playerLoopProcessor as PlayerLoopProcessor, ship, Camera.main);
+        var player = new Player();
+        player.Initialize(ship, Camera.main);
     }
 }

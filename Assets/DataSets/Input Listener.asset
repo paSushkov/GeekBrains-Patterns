@@ -9,8 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9f963dc7dd840e98c5a869c34eb1195, type: 3}
-  m_Name: PlayerShootData
+  m_Script: {fileID: 11500000, guid: 537d3b22d7064e7181a1ba1fa69443d0, type: 3}
+  m_Name: Input Listener
   m_EditorClassIdentifier: 
-  bullet: {fileID: 4933975063922895782, guid: a745dd606b94f0e4ea1288097c3c31e1, type: 3}
-  shootForce: 500
+  horizontalAxis: Horizontal
+  verticalAxis: Vertical
+  cancelAxis: Cancel
+  fireAxis: Fire1
+  accelerationAxis: Acceleration

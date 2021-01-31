@@ -6,11 +6,8 @@
         float Vertical { get;}
         float Cancel { get;}
         float Fire1 { get;}
-        float Jump { get;}
-        float Save { get;}
-        float Load { get;}
-        
+        float Acceleration { get;}
         void Initialize(IInputTranslator translator);
-        void Shutdown(IInputTranslator translator);
+        void Shutdown();
     }
 }

@@ -2,12 +2,15 @@
 using Asteroids.Common;
 using Asteroids.Management;
 using Asteroids.PlayerData;
+using Asteroids.Tech;
 using UnityEngine;
 
 namespace Asteroids
 {
     internal sealed class Ship : IMove, IRotation, IShoot, IHaveTransform, IHaveStats
     {
+        public ValueChanged HealthChanged;
+        
         private readonly IMove _moveImplementation;
         private readonly IRotation _rotationImplementation;
         private readonly IShoot shooter;
@@ -15,9 +18,10 @@ namespace Asteroids
         private Stat healthStat;
 
         public float Speed => _moveImplementation.Speed;
+        public bool IsAlive { get; private set; }
 
         public Ship(IMove moveImplementation, IRotation rotationImplementation, IShoot shootImplementation,
-            Transform transform, ITransformRegistry transformRegistry, Stat health,
+            Transform transform, Stat health,
             ShipMarkUp shipGameObjectMarkUp)
         {
             _moveImplementation = moveImplementation;
@@ -25,7 +29,7 @@ namespace Asteroids
             shooter = shootImplementation;
             
             GameTransform = transform;
-            TransformRegistryBind = transformRegistry;
+            TransformRegistryBind = ServiceLocator.Resolve<ITransformRegistry>();
             TransformRegistryBind.RegisterTransform(this, GameTransform);
 
             StatHolder = new StatHolder();
@@ -35,21 +39,24 @@ namespace Asteroids
 
             colliderListener = shipGameObjectMarkUp.ColliderListener;
             colliderListener.EnterCollider += ProcessCollisions;
+            IsAlive = true;
         }
 
         public void Move(float horizontal, float vertical, float deltaTime)
         {
-            _moveImplementation.Move(horizontal, vertical, deltaTime);
+            if (IsAlive)
+                _moveImplementation.Move(horizontal, vertical, deltaTime);
         }
 
         public void Rotation(Vector3 direction)
         {
-            _rotationImplementation.Rotation(direction);
+            if (IsAlive)
+                _rotationImplementation.Rotation(direction);
         }
 
         public void AddAcceleration()
         {
-            if (_moveImplementation is AccelerationMove accelerationMove)
+            if (IsAlive && _moveImplementation is AccelerationMove accelerationMove)
             {
                 accelerationMove.AddAcceleration();
             }
@@ -57,7 +64,7 @@ namespace Asteroids
 
         public void RemoveAcceleration()
         {
-            if (_moveImplementation is AccelerationMove accelerationMove)
+            if (IsAlive && _moveImplementation is AccelerationMove accelerationMove)
             {
                 accelerationMove.RemoveAcceleration();
             }
@@ -65,13 +72,19 @@ namespace Asteroids
         
         private void ProcessCollisions(Collision2D other)
         {
-            healthStat.CurrentValue--;
+            if (IsAlive)
+                healthStat.CurrentValue--;
         }
 
         private void ProcessHealthChange(float currentHealth)
         {
-            if (currentHealth <= 0)
+            if (!(currentHealth > 0))
+            {
+                IsAlive = false;
                 DisposeTransform();
+            }
+
+            HealthChanged?.Invoke(currentHealth);
         }
 
         
@@ -105,12 +118,14 @@ namespace Asteroids
 
         public void Shoot()
         {
-            shooter.Shoot();
+            if (IsAlive)
+                shooter.Shoot();
         }
 
         public void Shoot(Rigidbody2D bullet, float force)
         {
-            shooter.Shoot(bullet, force);
+            if (IsAlive)
+                shooter.Shoot(bullet, force);
         }
 
         #endregion

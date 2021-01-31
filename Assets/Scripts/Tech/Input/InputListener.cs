@@ -10,39 +10,34 @@ namespace Tech.Input
         [SerializeField] private string verticalAxis = "Vertical";
         [SerializeField] private string cancelAxis = "Cancel";
         [SerializeField] private string fireAxis = "Fire1";
-        [SerializeField] private string jumpAxis = "Jump";
-        [SerializeField] private string saveAxis = "Save";
-        [SerializeField] private string loadAxis = "Load";
-
+        [SerializeField] private string accelerationAxis = "Acceleration";
+        private IInputTranslator translator; 
+            
         public float Horizontal { get; private set; }
         public float Vertical { get; private set; }
         public float Cancel { get; private set; }
         public float Fire1 { get; private set; }
-        public float Jump { get; private set; }
-        public float Save { get; private set; }
-        public float Load { get; private set; }
+        public float Acceleration { get; private set; }
 
         
         public void Initialize(IInputTranslator translator)
         {
+            this.translator = translator;
             translator.SubscribeToAxisInput(horizontalAxis, GetHorizontal);
             translator.SubscribeToAxisInput(verticalAxis, GetVertical);
             translator.SubscribeToAxisInput(cancelAxis, GetCancel);
             translator.SubscribeToAxisInput(fireAxis, GetFire1);
-            translator.SubscribeToAxisInput(jumpAxis, GetJump);
-            translator.SubscribeToAxisInput(saveAxis, GetSave);
-            translator.SubscribeToAxisInput(loadAxis, GetLoad);
+            translator.SubscribeToAxisInput(accelerationAxis, GetAcceleration);
         }
 
-        public void Shutdown(IInputTranslator translator)
+        public void Shutdown()
         {
+            if (translator == null) return;
             translator.UnsubscribeFromAxisInput(horizontalAxis, GetHorizontal);
             translator.UnsubscribeFromAxisInput(verticalAxis, GetVertical);
             translator.UnsubscribeFromAxisInput(cancelAxis, GetCancel);
             translator.UnsubscribeFromAxisInput(fireAxis, GetFire1);
-            translator.UnsubscribeFromAxisInput(jumpAxis, GetJump);
-            translator.UnsubscribeFromAxisInput(saveAxis, GetSave);
-            translator.UnsubscribeFromAxisInput(jumpAxis, GetLoad);
+            translator.UnsubscribeFromAxisInput(accelerationAxis, GetAcceleration);
         }
 
         private void GetHorizontal(float value)
@@ -65,19 +60,9 @@ namespace Tech.Input
             Fire1 = value;
         }
 
-        private void GetJump(float value)
+        private void GetAcceleration(float value)
         {
-            Jump = value;
-        }
-
-        private void GetSave(float value)
-        {
-            Save = value;
-        }
-
-        private void GetLoad(float value)
-        {
-            Load = value;
+            Acceleration = value;
         }
     }
 }
